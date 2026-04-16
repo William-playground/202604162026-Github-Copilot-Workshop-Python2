@@ -37,6 +37,14 @@
 
     // --- Web Audio API サウンド ---
 
+    const SOUND_VOLUME = 0.3;
+    // 終了音の音階定義 (C5, E5, G5)
+    const END_TONES = [
+        { freq: 523.25, delay: 0, dur: 0.3 },
+        { freq: 659.25, delay: 200, dur: 0.3 },
+        { freq: 783.99, delay: 400, dur: 0.5 },
+    ];
+
     let audioCtx = null;
 
     function getAudioContext() {
@@ -45,6 +53,13 @@
         }
         return audioCtx;
     }
+
+    window.addEventListener("pagehide", () => {
+        if (audioCtx) {
+            audioCtx.close();
+            audioCtx = null;
+        }
+    });
 
     function playTone(frequency, duration, type) {
         try {
@@ -55,7 +70,7 @@
             gainNode.connect(ctx.destination);
             oscillator.frequency.value = frequency;
             oscillator.type = type || "sine";
-            gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+            gainNode.gain.setValueAtTime(SOUND_VOLUME, ctx.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
             oscillator.start(ctx.currentTime);
             oscillator.stop(ctx.currentTime + duration);
@@ -72,9 +87,9 @@
 
     function playEndSound() {
         if (soundEnd) {
-            playTone(523.25, 0.3, "sine");
-            setTimeout(() => playTone(659.25, 0.3, "sine"), 200);
-            setTimeout(() => playTone(783.99, 0.5, "sine"), 400);
+            END_TONES.forEach((t) => {
+                setTimeout(() => playTone(t.freq, t.dur, "sine"), t.delay);
+            });
         }
     }
 
