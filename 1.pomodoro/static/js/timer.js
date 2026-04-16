@@ -15,6 +15,17 @@
     const completedCount = document.getElementById("completedCount");
     const focusTime = document.getElementById("focusTime");
 
+    // ゲーミフィケーションDOM要素
+    const levelBadge = document.getElementById("levelBadge");
+    const xpText = document.getElementById("xpText");
+    const xpBar = document.getElementById("xpBar");
+    const streakBadge = document.getElementById("streakBadge");
+    const badgesGrid = document.getElementById("badgesGrid");
+    const weeklyChart = document.getElementById("weeklyChart");
+    const weeklyCount = document.getElementById("weeklyCount");
+    const weeklyMinutes = document.getElementById("weeklyMinutes");
+    const weeklyAvg = document.getElementById("weeklyAvg");
+
     // 状態
     let totalSeconds = WORK_MINUTES * 60;
     let remainingSeconds = totalSeconds;
@@ -73,13 +84,100 @@
         focusTime.textContent = formatFocusTime(data.totalMinutes);
     }
 
+    // --- ゲーミフィケーション表示更新 ---
+
+    function updateGamification(data) {
+        // レベル・XP
+        levelBadge.textContent = "Lv." + data.level;
+        xpText.textContent = data.xpInLevel + " / " + data.xpNeeded + " XP";
+        xpBar.style.width = Math.min(data.xpProgress * 100, 100) + "%";
+
+        // ストリーク
+        streakBadge.textContent = "🔥 " + data.streakDays + "日";
+
+        // バッジ
+        renderBadges(data.badges);
+    }
+
+    function renderBadges(badges) {
+        badgesGrid.innerHTML = "";
+        badges.forEach(function (badge) {
+            const item = document.createElement("div");
+            item.className = "badge-item " + (badge.earned ? "earned" : "locked");
+            item.title = badge.description;
+
+            const icon = document.createElement("span");
+            icon.className = "badge-icon";
+            icon.textContent = badge.earned ? badge.icon : "🔒";
+
+            const name = document.createElement("span");
+            name.className = "badge-name";
+            name.textContent = badge.name;
+
+            item.appendChild(icon);
+            item.appendChild(name);
+            badgesGrid.appendChild(item);
+        });
+    }
+
+    function updateStatistics(data) {
+        var weekly = data.weekly;
+
+        // 週間チャート
+        var maxCount = Math.max.apply(null, weekly.data.map(function (d) { return d.count; }));
+        if (maxCount === 0) maxCount = 1;
+
+        weeklyChart.innerHTML = "";
+        weekly.data.forEach(function (day) {
+            var wrapper = document.createElement("div");
+            wrapper.className = "chart-bar-wrapper";
+
+            var track = document.createElement("div");
+            track.className = "chart-bar-track";
+
+            var bar = document.createElement("div");
+            var heightPercent = day.count > 0 ? Math.max((day.count / maxCount) * 100, 8) : 0;
+            bar.className = "chart-bar" + (day.count === 0 ? " empty" : "");
+            bar.style.height = heightPercent + "%";
+
+            track.appendChild(bar);
+
+            var label = document.createElement("span");
+            label.className = "chart-day-label";
+            label.textContent = day.dayLabel;
+
+            wrapper.appendChild(track);
+            wrapper.appendChild(label);
+            weeklyChart.appendChild(wrapper);
+        });
+
+        // サマリー
+        weeklyCount.textContent = weekly.totalCount;
+        weeklyMinutes.textContent = formatFocusTime(weekly.totalMinutes);
+        weeklyAvg.textContent = formatFocusTime(weekly.avgMinutesPerDay);
+    }
+
     // --- API ---
 
     function fetchProgress() {
         fetch("/api/progress")
-            .then((res) => res.json())
-            .then((data) => updateProgressStats(data))
-            .catch(() => {});
+            .then(function (res) { return res.json(); })
+            .then(function (data) { updateProgressStats(data); })
+            .catch(function () {});
+    }
+
+    function fetchGamification() {
+        fetch("/api/gamification")
+            .then(function (res) { return res.json(); })
+            .then(function (data) { updateGamification(data); })
+            .catch(function () {});
+    }
+
+    function fetchStatistics() {
+        fetch("/api/statistics")
+            .then(function (res) { return res.json(); })
+            .then(function (data) { updateStatistics(data); })
+            .catch(function () {});
     }
 
     function postProgress(minutes) {
@@ -88,9 +186,14 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ minutes: minutes }),
         })
-            .then((res) => res.json())
-            .then((data) => updateProgressStats(data))
-            .catch(() => {});
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                updateProgressStats(data);
+                // ゲーミフィケーション・統計を更新
+                fetchGamification();
+                fetchStatistics();
+            })
+            .catch(function () {});
     }
 
     // --- タイマー制御 ---
@@ -146,7 +249,7 @@
 
     // --- イベント ---
 
-    startBtn.addEventListener("click", () => {
+    startBtn.addEventListener("click", function () {
         if (isRunning) {
             pause();
         } else {
@@ -160,4 +263,6 @@
     updateDisplay();
     updateProgress();
     fetchProgress();
+    fetchGamification();
+    fetchStatistics();
 })();
