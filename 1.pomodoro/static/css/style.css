@@ -4,18 +4,71 @@
     box-sizing: border-box;
 }
 
+/* --- テーマ変数 --- */
+:root,
+[data-theme="light"] {
+    --bg-gradient-start: #667eea;
+    --bg-gradient-end: #764ba2;
+    --app-bg: #fff;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-muted: #999;
+    --accent: #6C63FF;
+    --accent-hover: #5a52e0;
+    --accent-bg: #f0eeff;
+    --track-color: #e8e8e8;
+    --border-color: #eee;
+    --section-bg: #f8f8fc;
+    --btn-secondary-bg: #fff;
+    --settings-bg: #f4f4fa;
+}
+
+[data-theme="dark"] {
+    --bg-gradient-start: #1a1a2e;
+    --bg-gradient-end: #16213e;
+    --app-bg: #1e1e2f;
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaa;
+    --text-muted: #777;
+    --accent: #7c74ff;
+    --accent-hover: #6b63e0;
+    --accent-bg: #2a2a44;
+    --track-color: #333;
+    --border-color: #333;
+    --section-bg: #252538;
+    --btn-secondary-bg: #2a2a44;
+    --settings-bg: #252538;
+}
+
+[data-theme="focus"] {
+    --bg-gradient-start: #2c3e50;
+    --bg-gradient-end: #2c3e50;
+    --app-bg: #f5f5f0;
+    --text-primary: #2c3e50;
+    --text-secondary: #555;
+    --text-muted: #888;
+    --accent: #2c3e50;
+    --accent-hover: #1a252f;
+    --accent-bg: #e8e8e0;
+    --track-color: #ddd;
+    --border-color: #ddd;
+    --section-bg: #eeeee8;
+    --btn-secondary-bg: #f5f5f0;
+    --settings-bg: #eeeee8;
+}
+
 body {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .app-container {
     width: 340px;
-    background: #fff;
+    background: var(--app-bg);
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     overflow: hidden;
@@ -27,13 +80,13 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: #fff;
+    background: var(--app-bg);
 }
 
 .title {
     font-size: 16px;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .window-controls {
@@ -41,9 +94,99 @@ body {
     gap: 10px;
 }
 
-.control {
+.settings-toggle {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.3s ease;
+    line-height: 1;
+}
+
+.settings-toggle:hover {
+    color: var(--accent);
+}
+
+.settings-toggle.active {
+    transform: rotate(90deg);
+    color: var(--accent);
+}
+
+/* 設定パネル */
+.settings-panel {
+    background: var(--settings-bg);
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-panel[hidden] {
+    display: none;
+}
+
+.settings-group {
+    margin-bottom: 14px;
+}
+
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-label {
     font-size: 12px;
-    color: #999;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.settings-options {
+    display: flex;
+    gap: 6px;
+}
+
+.option-btn {
+    flex: 1;
+    padding: 6px 4px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--btn-secondary-bg);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.option-btn.selected {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.sound-toggles {
+    display: flex;
+    gap: 12px;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.toggle-label input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
     cursor: pointer;
 }
 
@@ -57,7 +200,7 @@ body {
 
 .status-label {
     font-size: 16px;
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 20px;
 }
 
@@ -77,13 +220,13 @@ body {
 
 .timer-circle .track {
     fill: none;
-    stroke: #e8e8e8;
+    stroke: var(--track-color);
     stroke-width: 10;
 }
 
 .timer-circle .progress {
     fill: none;
-    stroke: #6C63FF;
+    stroke: var(--accent);
     stroke-width: 10;
     stroke-linecap: round;
     stroke-dasharray: 534.07;
@@ -98,7 +241,7 @@ body {
     transform: translate(-50%, -50%);
     font-size: 42px;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary);
 }
 
 /* ボタン */
@@ -114,38 +257,38 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 2px solid #6C63FF;
+    border: 2px solid var(--accent);
 }
 
 .btn-primary {
-    background: #6C63FF;
+    background: var(--accent);
     color: #fff;
 }
 
 .btn-primary:hover {
-    background: #5a52e0;
+    background: var(--accent-hover);
 }
 
 .btn-secondary {
-    background: #fff;
-    color: #6C63FF;
+    background: var(--btn-secondary-bg);
+    color: var(--accent);
 }
 
 .btn-secondary:hover {
-    background: #f0eeff;
+    background: var(--accent-bg);
 }
 
 /* 進捗セクション */
 .progress-section {
-    background: #f8f8fc;
+    background: var(--section-bg);
     padding: 20px 30px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
 }
 
 .progress-title {
     font-size: 14px;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 12px;
 }
 
@@ -163,12 +306,12 @@ body {
 .stat-value {
     font-size: 28px;
     font-weight: 700;
-    color: #6C63FF;
+    color: var(--accent);
 }
 
 .stat-label {
     font-size: 12px;
-    color: #999;
+    color: var(--text-muted);
     margin-top: 4px;
 }
 
