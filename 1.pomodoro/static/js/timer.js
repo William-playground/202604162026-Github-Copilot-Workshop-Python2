@@ -124,7 +124,7 @@
         var weekly = data.weekly;
 
         // 週間チャート
-        var maxCount = Math.max.apply(null, weekly.data.map(function (d) { return d.count; }));
+        var maxCount = weekly.data.reduce(function (max, d) { return d.count > max ? d.count : max; }, 0);
         if (maxCount === 0) maxCount = 1;
 
         weeklyChart.innerHTML = "";

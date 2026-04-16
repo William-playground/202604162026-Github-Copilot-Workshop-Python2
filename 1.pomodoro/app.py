@@ -323,7 +323,7 @@ def get_gamification():
             "level": level,
             "xpInLevel": max(xp_in_level, 0),
             "xpNeeded": xp_needed,
-            "xpProgress": max(xp_in_level / xp_needed, 0) if xp_needed > 0 else 0,
+            "xpProgress": max(xp_in_level, 0) / xp_needed if xp_needed > 0 else 0,
             "totalPomodoros": gamification["total_pomodoros"],
             "totalFocusMinutes": gamification["total_focus_minutes"],
             "streakDays": gamification["streak_days"],
