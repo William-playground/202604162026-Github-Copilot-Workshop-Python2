@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +12,60 @@
         <div class="title-bar">
             <span class="title">ポモドーロタイマー</span>
             <div class="window-controls">
-                <span class="control">ー</span>
-                <span class="control">□</span>
-                <span class="control">×</span>
+                <button class="settings-toggle" id="settingsToggle" aria-label="設定">⚙</button>
+            </div>
+        </div>
+
+        <!-- 設定パネル -->
+        <div class="settings-panel" id="settingsPanel" hidden>
+            <!-- 作業時間 -->
+            <div class="settings-group">
+                <p class="settings-label">作業時間</p>
+                <div class="settings-options" id="workOptions">
+                    <button class="option-btn" data-value="15">15分</button>
+                    <button class="option-btn selected" data-value="25">25分</button>
+                    <button class="option-btn" data-value="35">35分</button>
+                    <button class="option-btn" data-value="45">45分</button>
+                </div>
+            </div>
+
+            <!-- 休憩時間 -->
+            <div class="settings-group">
+                <p class="settings-label">休憩時間</p>
+                <div class="settings-options" id="breakOptions">
+                    <button class="option-btn selected" data-value="5">5分</button>
+                    <button class="option-btn" data-value="10">10分</button>
+                    <button class="option-btn" data-value="15">15分</button>
+                </div>
+            </div>
+
+            <!-- テーマ -->
+            <div class="settings-group">
+                <p class="settings-label">テーマ</p>
+                <div class="settings-options" id="themeOptions">
+                    <button class="option-btn selected" data-value="light">ライト</button>
+                    <button class="option-btn" data-value="dark">ダーク</button>
+                    <button class="option-btn" data-value="focus">フォーカス</button>
+                </div>
+            </div>
+
+            <!-- サウンド -->
+            <div class="settings-group">
+                <p class="settings-label">サウンド</p>
+                <div class="sound-toggles">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="soundStart" checked>
+                        <span>開始音</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="soundEnd" checked>
+                        <span>終了音</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="soundTick">
+                        <span>Tick音</span>
+                    </label>
+                </div>
             </div>
         </div>
 
