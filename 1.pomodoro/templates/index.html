@@ -18,6 +18,18 @@
             </div>
         </div>
 
+        <!-- XP・レベル表示 -->
+        <div class="xp-section">
+            <div class="xp-header">
+                <span class="level-badge" id="levelBadge">Lv.1</span>
+                <span class="xp-text" id="xpText">0 / 100 XP</span>
+                <span class="streak-badge" id="streakBadge">🔥 0日</span>
+            </div>
+            <div class="xp-bar-container">
+                <div class="xp-bar" id="xpBar" style="width: 0%"></div>
+            </div>
+        </div>
+
         <!-- メインコンテンツ -->
         <div class="main-content">
             <p class="status-label" id="statusLabel">作業中</p>
@@ -49,6 +61,36 @@
                 <div class="stat">
                     <span class="stat-value" id="focusTime">0分</span>
                     <span class="stat-label">集中時間</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 達成バッジ -->
+        <div class="badges-section">
+            <p class="section-title">達成バッジ</p>
+            <div class="badges-grid" id="badgesGrid">
+                <!-- JS で動的生成 -->
+            </div>
+        </div>
+
+        <!-- 週間統計 -->
+        <div class="stats-section">
+            <p class="section-title">週間統計</p>
+            <div class="weekly-chart" id="weeklyChart">
+                <!-- JS で動的生成 -->
+            </div>
+            <div class="stats-summary" id="statsSummary">
+                <div class="summary-item">
+                    <span class="summary-value" id="weeklyCount">0</span>
+                    <span class="summary-label">今週の完了</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-value" id="weeklyMinutes">0分</span>
+                    <span class="summary-label">今週の集中</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-value" id="weeklyAvg">0分</span>
+                    <span class="summary-label">平均/日</span>
                 </div>
             </div>
         </div>
