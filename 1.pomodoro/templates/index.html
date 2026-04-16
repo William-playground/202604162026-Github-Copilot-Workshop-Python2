@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポモドーロタイマー</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- タイトルバー -->
+        <div class="title-bar">
+            <span class="title">ポモドーロタイマー</span>
+            <div class="window-controls">
+                <span class="control">ー</span>
+                <span class="control">□</span>
+                <span class="control">×</span>
+            </div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div class="main-content">
+            <p class="status-label" id="statusLabel">作業中</p>
+
+            <!-- 円形プログレスバー -->
+            <div class="timer-circle">
+                <svg viewBox="0 0 200 200">
+                    <circle class="track" cx="100" cy="100" r="85"></circle>
+                    <circle class="progress" id="progressCircle" cx="100" cy="100" r="85"></circle>
+                </svg>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+            </div>
+
+            <!-- ボタン -->
+            <div class="button-group">
+                <button class="btn btn-primary" id="startBtn">開始</button>
+                <button class="btn btn-secondary" id="resetBtn">リセット</button>
+            </div>
+        </div>
+
+        <!-- 今日の進捗 -->
+        <div class="progress-section">
+            <p class="progress-title">今日の進捗</p>
+            <div class="progress-stats">
+                <div class="stat">
+                    <span class="stat-value" id="completedCount">0</span>
+                    <span class="stat-label">完了</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="focusTime">0分</span>
+                    <span class="stat-label">集中時間</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+</body>
+</html>

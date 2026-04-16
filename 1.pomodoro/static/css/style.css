@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.app-container {
+    width: 340px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* タイトルバー */
+.title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #fff;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.window-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.control {
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+}
+
+/* メインコンテンツ */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 40px 30px;
+}
+
+.status-label {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* 円形プログレスバー */
+.timer-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 25px;
+}
+
+.timer-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-circle .track {
+    fill: none;
+    stroke: #e8e8e8;
+    stroke-width: 10;
+}
+
+.timer-circle .progress {
+    fill: none;
+    stroke: #6C63FF;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 534.07;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.timer-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ボタン */
+.button-group {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 28px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid #6C63FF;
+}
+
+.btn-primary {
+    background: #6C63FF;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #5a52e0;
+}
+
+.btn-secondary {
+    background: #fff;
+    color: #6C63FF;
+}
+
+.btn-secondary:hover {
+    background: #f0eeff;
+}
+
+/* 進捗セクション */
+.progress-section {
+    background: #f8f8fc;
+    padding: 20px 30px;
+    border-top: 1px solid #eee;
+}
+
+.progress-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-around;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #6C63FF;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* 休憩中のカラー変更 */
+.timer-circle .progress.break-mode {
+    stroke: #4CAF50;
+}
+
+.status-label.break-mode {
+    color: #4CAF50;
+}
