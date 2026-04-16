@@ -27,9 +27,9 @@
     // --- 色の変化（青→黄→赤） ---
 
     /**
-     * 残り時間の割合に応じた色を返す
-     * 100%~50%: 青(#4A90D9) → 黄(#F5A623)
-     * 50%~0%:   黄(#F5A623) → 赤(#E74C3C)
+     * 経過時間の割合に応じた色を返す
+     * 0%~50%経過: 青(#4A90D9) → 黄(#F5A623)
+     * 50%~100%経過: 黄(#F5A623) → 赤(#E74C3C)
      */
     function getProgressColor(fraction) {
         // fraction: 0(開始) → 1(完了)
@@ -48,7 +48,7 @@
         const r = Math.round(r1 + (r2 - r1) * t);
         const g = Math.round(g1 + (g2 - g1) * t);
         const b = Math.round(b1 + (b2 - b1) * t);
-        return "rgb(" + r + "," + g + "," + b + ")";
+        return `rgb(${r},${g},${b})`;
     }
 
     // --- パーティクルエフェクト ---
@@ -107,7 +107,7 @@
 
             ctx.beginPath();
             ctx.arc(p.x, p.y, currentRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(255, 255, 255, " + currentOpacity + ")";
+            ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
             ctx.fill();
         }
     }
@@ -162,14 +162,14 @@
             statusLabel.textContent = "休憩中";
             statusLabel.classList.add("break-mode");
             progressCircle.classList.add("break-mode");
-            progressCircle.style.stroke = "";
+            progressCircle.style.stroke = null;
             totalSeconds = BREAK_MINUTES * 60;
             stopParticles();
         } else {
             statusLabel.textContent = "作業中";
             statusLabel.classList.remove("break-mode");
             progressCircle.classList.remove("break-mode");
-            progressCircle.style.stroke = "";
+            progressCircle.style.stroke = null;
             totalSeconds = WORK_MINUTES * 60;
         }
         remainingSeconds = totalSeconds;
